@@ -3,13 +3,13 @@ cask "infinito" do
 
   on_arm do
     sha256 "REPLACE_WITH_ARM64_SHA256"
-    url "https://github.com/blas-works/infinito/releases/download/v#{version}/infinito-#{version}-arm64.dmg",
+    url "https://github.com/blas-works/infinito/releases/download/v#{version}/Infinito-#{version}-arm64.dmg",
         verified: "github.com/blas-works/infinito/"
   end
 
   on_intel do
     sha256 "REPLACE_WITH_X64_SHA256"
-    url "https://github.com/blas-works/infinito/releases/download/v#{version}/infinito-#{version}-x64.dmg",
+    url "https://github.com/blas-works/infinito/releases/download/v#{version}/Infinito-#{version}-x64.dmg",
         verified: "github.com/blas-works/infinito/"
   end
 
@@ -25,12 +25,12 @@ cask "infinito" do
   auto_updates true
   depends_on macos: ">= :catalina"
 
-  app "infinito.app"
+  app "Infinito.app"
 
   zap trash: [
-    "~/Library/Application Support/infinito",
+    "~/Library/Application Support/Infinito",
     "~/Library/Preferences/com.infinito.app.plist",
     "~/Library/Caches/com.infinito.app",
-    "~/Library/Logs/infinito",
+    "~/Library/Logs/Infinito",
   ]
 end

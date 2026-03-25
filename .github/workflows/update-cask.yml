@@ -33,7 +33,7 @@ jobs:
           if [ "$APP" = "hollow" ]; then
             PRODUCT_NAME="Hollow"
           else
-            PRODUCT_NAME="infinito"
+            PRODUCT_NAME="Infinito"
           fi
 
           ARM64_URL="https://github.com/blas-works/${APP}/releases/download/v${VERSION}/${PRODUCT_NAME}-${VERSION}-arm64.dmg"
