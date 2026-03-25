@@ -1,14 +1,14 @@
 cask "hollow" do
-  version "3.9.1"
+  version "3.10.0"
 
   on_arm do
-    sha256 "70e7cb6ac3cf3c69d3f32f07dd4dea4008ba57f9b5d24caba8982162b6cbc4e1"
+    sha256 "fc5940621136cf5aad73b907e817bf297813a92f5e73278fc75ba34f1d111672"
     url "https://github.com/blas-works/hollow/releases/download/v#{version}/hollow-#{version}-arm64.dmg",
         verified: "github.com/blas-works/hollow/"
   end
 
   on_intel do
-    sha256 "be5cbf776738e663789506469136375dbbe66bca7d09c151a6884d6d25fb9c05"
+    sha256 "349c1fc6a959eeaae2857494afc183f0925614659bab3693dd008529703620b9"
     url "https://github.com/blas-works/hollow/releases/download/v#{version}/hollow-#{version}-x64.dmg",
         verified: "github.com/blas-works/hollow/"
   end
