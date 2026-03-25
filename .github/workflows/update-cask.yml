@@ -1,0 +1,81 @@
+name: Update Cask
+
+on:
+  workflow_dispatch:
+    inputs:
+      app:
+        description: "Application name (hollow or infinito)"
+        required: true
+        type: choice
+        options:
+          - hollow
+          - infinito
+      version:
+        description: "New version (without v prefix, e.g. 3.8.0)"
+        required: true
+        type: string
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Determine artifact URLs
+        id: urls
+        run: |
+          APP="${{ inputs.app }}"
+          VERSION="${{ inputs.version }}"
+
+          if [ "$APP" = "hollow" ]; then
+            PRODUCT_NAME="Hollow"
+          else
+            PRODUCT_NAME="infinito"
+          fi
+
+          ARM64_URL="https://github.com/blas-works/${APP}/releases/download/v${VERSION}/${PRODUCT_NAME}-${VERSION}-arm64.dmg"
+          X64_URL="https://github.com/blas-works/${APP}/releases/download/v${VERSION}/${PRODUCT_NAME}-${VERSION}-x64.dmg"
+
+          echo "arm64_url=${ARM64_URL}" >> "$GITHUB_OUTPUT"
+          echo "x64_url=${X64_URL}" >> "$GITHUB_OUTPUT"
+
+      - name: Download and compute SHA256
+        id: sha
+        run: |
+          echo "Downloading arm64 DMG..."
+          curl -fSL -o arm64.dmg "${{ steps.urls.outputs.arm64_url }}"
+          ARM64_SHA=$(shasum -a 256 arm64.dmg | awk '{print $1}')
+          echo "arm64_sha=${ARM64_SHA}" >> "$GITHUB_OUTPUT"
+
+          echo "Downloading x64 DMG..."
+          curl -fSL -o x64.dmg "${{ steps.urls.outputs.x64_url }}"
+          X64_SHA=$(shasum -a 256 x64.dmg | awk '{print $1}')
+          echo "x64_sha=${X64_SHA}" >> "$GITHUB_OUTPUT"
+
+      - name: Update Cask file
+        run: |
+          APP="${{ inputs.app }}"
+          VERSION="${{ inputs.version }}"
+          CASK_FILE="Casks/${APP}.rb"
+
+          # Update version
+          sed -i "s/version \".*\"/version \"${VERSION}\"/" "$CASK_FILE"
+
+          # Update ARM64 SHA256 (first sha256 occurrence)
+          sed -i "0,/sha256 \".*\"/{s/sha256 \".*\"/sha256 \"${{ steps.sha.outputs.arm64_sha }}\"/}" "$CASK_FILE"
+
+          # Update x64 SHA256 (second sha256 occurrence)
+          sed -i "0,/sha256 \".*\"/! {0,/sha256 \".*\"/ s/sha256 \".*\"/sha256 \"${{ steps.sha.outputs.x64_sha }}\"/}" "$CASK_FILE"
+
+          cat "$CASK_FILE"
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add "Casks/${{ inputs.app }}.rb"
+          git commit -m "bump ${{ inputs.app }} to ${{ inputs.version }}"
+          git push
