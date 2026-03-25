@@ -30,14 +30,8 @@ jobs:
           APP="${{ inputs.app }}"
           VERSION="${{ inputs.version }}"
 
-          if [ "$APP" = "hollow" ]; then
-            PRODUCT_NAME="Hollow"
-          else
-            PRODUCT_NAME="Infinito"
-          fi
-
-          ARM64_URL="https://github.com/blas-works/${APP}/releases/download/v${VERSION}/${PRODUCT_NAME}-${VERSION}-arm64.dmg"
-          X64_URL="https://github.com/blas-works/${APP}/releases/download/v${VERSION}/${PRODUCT_NAME}-${VERSION}-x64.dmg"
+          ARM64_URL="https://github.com/blas-works/${APP}/releases/download/v${VERSION}/${APP}-${VERSION}-arm64.dmg"
+          X64_URL="https://github.com/blas-works/${APP}/releases/download/v${VERSION}/${APP}-${VERSION}-x64.dmg"
 
           echo "arm64_url=${ARM64_URL}" >> "$GITHUB_OUTPUT"
           echo "x64_url=${X64_URL}" >> "$GITHUB_OUTPUT"
