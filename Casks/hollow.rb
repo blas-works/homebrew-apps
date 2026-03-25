@@ -27,6 +27,11 @@ cask "hollow" do
 
   app "Hollow.app"
 
+  postflight do
+    system_command "/usr/bin/xattr",
+                   args: ["-cr", "#{appdir}/Hollow.app"]
+  end
+
   zap trash: [
     "~/Library/Application Support/Hollow",
     "~/Library/Preferences/com.hollow.app.plist",

@@ -14,6 +14,8 @@ on:
         description: "New version (without v prefix, e.g. 3.8.0)"
         required: true
         type: string
+  repository_dispatch:
+    types: [update-cask]
 
 jobs:
   update:
@@ -24,35 +26,43 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Determine artifact URLs
-        id: urls
+      - name: Resolve inputs
+        id: inputs
         run: |
-          APP="${{ inputs.app }}"
-          VERSION="${{ inputs.version }}"
+          if [ "${{ github.event_name }}" = "repository_dispatch" ]; then
+            APP="${{ github.event.client_payload.app }}"
+            VERSION="${{ github.event.client_payload.version }}"
+          else
+            APP="${{ inputs.app }}"
+            VERSION="${{ inputs.version }}"
+          fi
 
-          ARM64_URL="https://github.com/blas-works/${APP}/releases/download/v${VERSION}/${APP}-${VERSION}-arm64.dmg"
-          X64_URL="https://github.com/blas-works/${APP}/releases/download/v${VERSION}/${APP}-${VERSION}-x64.dmg"
-
-          echo "arm64_url=${ARM64_URL}" >> "$GITHUB_OUTPUT"
-          echo "x64_url=${X64_URL}" >> "$GITHUB_OUTPUT"
+          echo "app=${APP}" >> "$GITHUB_OUTPUT"
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
 
       - name: Download and compute SHA256
         id: sha
         run: |
-          echo "Downloading arm64 DMG..."
-          curl -fSL -o arm64.dmg "${{ steps.urls.outputs.arm64_url }}"
+          APP="${{ steps.inputs.outputs.app }}"
+          VERSION="${{ steps.inputs.outputs.version }}"
+
+          ARM64_URL="https://github.com/blas-works/${APP}/releases/download/v${VERSION}/${APP}-${VERSION}-arm64.dmg"
+          X64_URL="https://github.com/blas-works/${APP}/releases/download/v${VERSION}/${APP}-${VERSION}-x64.dmg"
+
+          echo "Downloading arm64 DMG from ${ARM64_URL}..."
+          curl -fSL -o arm64.dmg "${ARM64_URL}"
           ARM64_SHA=$(shasum -a 256 arm64.dmg | awk '{print $1}')
           echo "arm64_sha=${ARM64_SHA}" >> "$GITHUB_OUTPUT"
 
-          echo "Downloading x64 DMG..."
-          curl -fSL -o x64.dmg "${{ steps.urls.outputs.x64_url }}"
+          echo "Downloading x64 DMG from ${X64_URL}..."
+          curl -fSL -o x64.dmg "${X64_URL}"
           X64_SHA=$(shasum -a 256 x64.dmg | awk '{print $1}')
           echo "x64_sha=${X64_SHA}" >> "$GITHUB_OUTPUT"
 
       - name: Update Cask file
         run: |
-          APP="${{ inputs.app }}"
-          VERSION="${{ inputs.version }}"
+          APP="${{ steps.inputs.outputs.app }}"
+          VERSION="${{ steps.inputs.outputs.version }}"
           CASK_FILE="Casks/${APP}.rb"
 
           # Update version
@@ -70,6 +80,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add "Casks/${{ inputs.app }}.rb"
-          git commit -m "bump ${{ inputs.app }} to ${{ inputs.version }}"
+          git add "Casks/${{ steps.inputs.outputs.app }}.rb"
+          git commit -m "bump ${{ steps.inputs.outputs.app }} to ${{ steps.inputs.outputs.version }}"
           git push

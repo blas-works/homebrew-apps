@@ -27,6 +27,11 @@ cask "infinito" do
 
   app "infinito.app"
 
+  postflight do
+    system_command "/usr/bin/xattr",
+                   args: ["-cr", "#{appdir}/infinito.app"]
+  end
+
   zap trash: [
     "~/Library/Application Support/infinito",
     "~/Library/Preferences/com.infinito.app.plist",
