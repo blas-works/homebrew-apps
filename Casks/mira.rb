@@ -1,14 +1,14 @@
 cask "mira" do
-  version "1.3.1"
+  version "1.3.2"
 
   on_arm do
-    sha256 "abcad98a2d1bc3d7a80c5b705f885057ceb81e2a9fc8a045f03ca1c1418e0b88"
+    sha256 "4d67dc67cd1c096738fcf1d93bd6b3d44ff416fd6588e7ff9dd278e49bedd3e4"
     url "https://github.com/blas-works/mira/releases/download/v#{version}/mira-#{version}-arm64.dmg",
         verified: "github.com/blas-works/mira/"
   end
 
   on_intel do
-    sha256 "07ba68e5d1c7cffd2b437a7aa80e00ceeb3c0b6b66d37308b4697fd272f93a72"
+    sha256 "b00489bff772118d9a4110aa8f9c49a479f38d4f1ba8cccb6b8c62a325d5f5c2"
     url "https://github.com/blas-works/mira/releases/download/v#{version}/mira-#{version}-x64.dmg",
         verified: "github.com/blas-works/mira/"
   end
