@@ -4,12 +4,13 @@ on:
   workflow_dispatch:
     inputs:
       app:
-        description: "Application name (hollow or infinito)"
+        description: "Application name (hollow, infinito, or mira)"
         required: true
         type: choice
         options:
           - hollow
           - infinito
+          - mira
       version:
         description: "New version (without v prefix, e.g. 3.8.0)"
         required: true
