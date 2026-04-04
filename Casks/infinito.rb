@@ -1,14 +1,14 @@
 cask "infinito" do
-  version "1.12.1"
+  version "1.12.2"
 
   on_arm do
-    sha256 "cee3f1385beef0f6d81249f25ec85f197989824bdd908f814e11efde57a1cd5b"
+    sha256 "ee8bcd3a1fb8c24300052ea0cf5ce3585863a34e023166b777f0199757354209"
     url "https://github.com/blas-works/infinito/releases/download/v#{version}/infinito-#{version}-arm64.dmg",
         verified: "github.com/blas-works/infinito/"
   end
 
   on_intel do
-    sha256 "872fc21a353dbcbf2c23bb6f2222721d138626559918bf5b7b76431661b54ef7"
+    sha256 "3e03734a0839ca8a78354be604e8d1f1d3079fee348a0ae661c027992b5bd571"
     url "https://github.com/blas-works/infinito/releases/download/v#{version}/infinito-#{version}-x64.dmg",
         verified: "github.com/blas-works/infinito/"
   end
