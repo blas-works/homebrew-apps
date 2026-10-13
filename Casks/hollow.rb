@@ -3,14 +3,12 @@ cask "hollow" do
 
   on_arm do
     sha256 "f456484ec7a888e5fc4a80f7a2ebb58b128936dceb1b81cf15590637b784b40a"
-    url "https://github.com/blas-works/hollow/releases/download/v#{version}/hollow-#{version}-arm64.dmg",
-        verified: "github.com/blas-works/hollow/"
+    url "https://github.com/blas-works/hollow/releases/download/v#{version}/hollow-#{version}-arm64.dmg"
   end
 
   on_intel do
     sha256 "927922e162653060ab77a2d0404fa210734911055e3c0cb444c814c9d97f0c14"
-    url "https://github.com/blas-works/hollow/releases/download/v#{version}/hollow-#{version}-x64.dmg",
-        verified: "github.com/blas-works/hollow/"
+    url "https://github.com/blas-works/hollow/releases/download/v#{version}/hollow-#{version}-x64.dmg"
   end
 
   name "Hollow"
@@ -23,7 +21,7 @@ cask "hollow" do
   end
 
   auto_updates true
-  depends_on macos: ">= :catalina"
+  depends_on macos: :monterey
 
   app "Hollow.app"
 

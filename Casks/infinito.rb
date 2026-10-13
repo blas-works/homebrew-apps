@@ -3,14 +3,12 @@ cask "infinito" do
 
   on_arm do
     sha256 "44056e4dbbc86c8a7682f9facef0d722904f0fc052e33b8fd1502866a9dbc538"
-    url "https://github.com/blas-works/infinito/releases/download/v#{version}/infinito-#{version}-arm64.dmg",
-        verified: "github.com/blas-works/infinito/"
+    url "https://github.com/blas-works/infinito/releases/download/v#{version}/infinito-#{version}-arm64.dmg"
   end
 
   on_intel do
     sha256 "a10035fd51c7f5ddbad049fc5ba489a45c0ca3449f588498f24cfcd1cbf9519c"
-    url "https://github.com/blas-works/infinito/releases/download/v#{version}/infinito-#{version}-x64.dmg",
-        verified: "github.com/blas-works/infinito/"
+    url "https://github.com/blas-works/infinito/releases/download/v#{version}/infinito-#{version}-x64.dmg"
   end
 
   name "Infinito"
@@ -23,7 +21,7 @@ cask "infinito" do
   end
 
   auto_updates true
-  depends_on macos: ">= :catalina"
+  depends_on macos: :monterey
 
   app "infinito.app"
 

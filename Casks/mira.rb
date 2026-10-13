@@ -3,14 +3,12 @@ cask "mira" do
 
   on_arm do
     sha256 "5699f58ddf0162d61155cb7464efdd9b68750a934d8493156d4deb5b088b7a36"
-    url "https://github.com/blas-works/mira/releases/download/v#{version}/mira-#{version}-arm64.dmg",
-        verified: "github.com/blas-works/mira/"
+    url "https://github.com/blas-works/mira/releases/download/v#{version}/mira-#{version}-arm64.dmg"
   end
 
   on_intel do
     sha256 "1ee698511252797aa58f86ef2989b22d85645837e188ee24c44d36ecdb1438f5"
-    url "https://github.com/blas-works/mira/releases/download/v#{version}/mira-#{version}-x64.dmg",
-        verified: "github.com/blas-works/mira/"
+    url "https://github.com/blas-works/mira/releases/download/v#{version}/mira-#{version}-x64.dmg"
   end
 
   name "Mira"
@@ -23,7 +21,7 @@ cask "mira" do
   end
 
   auto_updates true
-  depends_on macos: ">= :catalina"
+  depends_on macos: :monterey
 
   app "Mira.app"
 
