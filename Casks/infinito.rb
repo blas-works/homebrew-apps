@@ -25,9 +25,8 @@ cask "infinito" do
 
   app "infinito.app"
 
-  postflight do
-    system_command "/usr/bin/xattr",
-                   args: ["-cr", "#{appdir}/infinito.app"]
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-cr", "{{appdir}}/infinito.app"]
   end
 
   zap trash: [

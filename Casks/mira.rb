@@ -25,9 +25,8 @@ cask "mira" do
 
   app "Mira.app"
 
-  postflight do
-    system_command "/usr/bin/xattr",
-                   args: ["-cr", "#{appdir}/Mira.app"]
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-cr", "{{appdir}}/Mira.app"]
   end
 
   zap trash: [
